@@ -113,7 +113,9 @@ tr > td:first-of-type {
 }
 
 tr > td > form > input {
-    width: 100%;
+    width: 60%;
+    height: 35px;
+    padding-bottom: 15px;
 }
 
 .delete-btn, .cancel-btn {
