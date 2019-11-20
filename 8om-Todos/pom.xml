@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>8om-Todos</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>8om-Todos</name>
+	<description>Todo project using Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Database -->
+        <db.url>jdbc:postgresql://localhost:5432/todos</db.url>
+        <db.username>postgres</db.username>
+        <db.password>Kndh@1997</db.password>
+        <!-- jOOQ -->
+        <org.jooq.version>3.12.3</org.jooq.version>
+        <org.jooq.codegen.namespace>com.om.todos.model.tables</org.jooq.codegen.namespace>
+        <org.jooq.input_schema>public</org.jooq.input_schema>
+        <org.jooq.target_dir>src/main/java/</org.jooq.target_dir>
+		
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+        </dependency>
+		
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.om.todos.Application</mainClass>
+                </configuration>
+            </plugin>
+
+            
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <!-- The jOOQ code generation plugin is also executed in the generate-sources phase,
+                     prior to compilation -->
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <!-- This is a minimal working configuration. See the manual's section about the code generator
+                     for more details -->
+                <configuration>
+                    <jdbc>
+                        <url>${db.url}</url>
+                        <user>${db.username}</user>
+                        <password>${db.password}</password>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <includes>.*</includes>
+                            <inputSchema>${org.jooq.input_schema}</inputSchema>
+                        </database>
+                        <target>
+                            <packageName>${org.jooq.codegen.namespace}</packageName>
+                            <directory>${org.jooq.target_dir}</directory>
+                        </target>
+                    </generator>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
